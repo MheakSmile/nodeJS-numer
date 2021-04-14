@@ -1,10 +1,10 @@
-import fetch from "node-fetch"
+
 /**
  * 
  * @param {import("express").Request} req 
  * @param {import("express").Response} res 
  */
-
+import {derivative,simplify,evaluate} from 'mathjs'
 export const Bisection = async(req,res) => {
     const data = req.body
     let xl = data.xl;
@@ -14,12 +14,16 @@ export const Bisection = async(req,res) => {
     let er1 = data.error;
     let xm, xmbefore, fxm, fxr;
     let result = [];
+    let fx =(x) =>{
+      let a = simplify(data.eq).toString()
+      return evaluate(a, {x})
+    }
 
     while (er > er1) {
       //step1
       xm = (xl + xr) / 2;
-      fxm = Math.pow(xl, 4) - 13;
-      fxr = Math.pow(xr, 4) - 13;
+      fx = Math.pow(xl, 4) - 13;
+      fx = Math.pow(xr, 4) - 13;
       //step2
       let check = fxm * fxr;
       //step3
@@ -65,11 +69,17 @@ const data = req.body
     let x1 = 0.5
     let er = 1
     let er1 = data.error
-    let fxl = (xl) => Math.pow(xl, 4) - 13
-    let fxr = (xr) => Math.pow(xr, 4) - 13
+     let fx =(x) =>{
+      let a = simplify(data.eq).toString()
+      return evaluate(a, {x})
+    }
+    // let fx = (xl) => Math.pow(xl, 4) - 13
+    // let fx = (xr) => Math.pow(xr, 4) - 13
     while (er > er1) {
-        x1 = (xl * fxr(xr) - xr * fxl(xl)) / (fxr(xr) - fxl(xl))
-        f = x1 * fxr(xr)
+     fx = (xl) => Math.pow(xl, 4) - 13
+     fx = (xr) => Math.pow(xr, 4) - 13
+        x1 = (xl * fx(xr) - xr * fx(xl)) / (fx(xr) - fx(xl))
+        f = x1 * fx(xr)
         if (i == 0) {
             if (f < 0) {
                 xl = x1
@@ -109,110 +119,95 @@ const data = req.body
 
 
 export const  Newtonraphon = async(req,res) =>{
-  const data = req.body
-  let result = [];
-  let x = data.x;
-  let er = 1;
-  let er1 =data.error;
-  let i =0;
-  let xi,fx,diffx;
-  while(er>er1){
-    console.log("Iterration = ",i);
-    if(i>0){
-    fx = Math.pow(x,2)-7;
-    diffx = x*2;
-        xi = x-(fx/diffx);
-        console.log("xi = ",xi);
-        er = Math.abs((xi-x)/xi).toFixed(5);
-        console.log("error = ",er);
-        x = xi;
+ const data = req.body
+    let result = []
+    let xi = data.x
+    let e = 1
+    let error = data.error
+    let i = 1
+    let f1 = (x) => {
+        let a = simplify(data.eq).toString()
+        return evaluate(a, { x })
     }
-    else{
-        console.log("x = ",x);
+    let fx = (x) => {
+        let diff = derivative(data.eq, 'x').toString()
+        diff = simplify(diff).toString()
+        return evaluate(diff, { x })
     }
-    {
-      if(i>0)
-            result.push({ 
-              iteration: i, 
-              x, 
-              fx,
-              diffx,
-              er, 
-            })
-        }
-    i++;
-}
-    res.json({ 
-      data: result 
-    })
-}
+    while (e > error) {
+        let fx1 = parseFloat(f1(xi).toFixed(5))
+        let fx2 = parseFloat(fx(xi).toFixed(5))
+        let x = parseFloat((xi - fx1 / fx2).toFixed(5))
+        e = parseFloat(Math.abs((x - xi) / x).toFixed(5))
+        xi = x
+        result.push({ iteration: i, xi, fx1, fx2, x, err: e })
+        i++
+    }
+    res.json({ data: result })
+  }
 
 
 export const  Onepoint = async(req,res) =>{
   const data = req.body
-  let result =[];
-  let x = data.x;
-  let er = 1;
-  let i =0;
-  let er1 = data.error;
-  let xi;
-while(er>er1){
-        xi = ((1/4) + (x/2));
-        er = Math.abs((xi-x)/xi).toFixed(6);
-        console.log("error = ",er);
-        x = xi;
-        console.log("x = ",x);
-        i++;
-            {
-      if(i>0)
-            result.push({ 
-              iteration: i, 
-              x, 
-              er, 
-            })
+    let result = []
+    let x = data.x
+    let i = 0
+    let xi
+    let er = 1
+    let er1 = data.error
+    if (er1 == null || er1 <= 0) {
+        er1 = 0.000001
+    }
+    let fx = (x) => {
+        let a = simplify(data.eq).toString()
+        return evaluate(a, { x })
+    }
+    while (er >= er1) {
+        if (i > 0) {
+            xi = fx(x)
+            er = parseFloat(Math.abs((xi - x) / xi).toFixed(5))
+            x = xi
+            result.push({ iteration: i, x, er })
         }
-      }
-       res.json({ 
-      data: result 
+        i++
+    }
+    res.json({
+        data: result,
     })
 }
 
 
 export const  Secant = async(req,res) =>{
   const data = req.body
-  let result =[];
-  let x0 = data.x0;
-let x1 = data.x1;
-let er = 1;
-let er1 =data.error
-let i = 1;
-let x2 = data.x2;
-while(er > er1){
-    console.log("Iteration:",i);
-    let fx1 = Math.pow(x0,2) - 7;
-    let fx2 = Math.pow(x1,2) - 7;
-    let x = x1+(-((fx2)*(x0-x1))/(fx1-fx2));
-    x0 = x1;
-    x2 = x;
-    console.log("x :",x2);
-    er = (Math.abs((x2-x1)/x2).toFixed(5));
-    x1 = x2;
-    console.log("error :",er);   
-    {
-      if(i>0)
-            result.push({ 
-              iteration: i, 
-              fx1,
-              fx2,
-              x0,
-              x1,                   
-              er, 
-            })
+    let result = []
+    let x0 = data.x0
+    let x1 = data.x1
+    let i = 1
+    let xi, fx0, fx1, deltax
+    let er = 1
+    let er1 = data.error
+    if (er1 == null || er1 <= 0) {
+        er1 = 0.000001
+    }
+    let fx = (x) => {
+        let a = simplify(data.eq).toString()
+        return evaluate(a, { x })
+    }
+    while (er >= er1) {
+        if (i > 0) {
+            fx0 = fx(x0).toFixed(5)
+            fx1 = fx(x1).toFixed(5)
+            deltax = parseFloat(((fx1 * (x0 - x1)) / (fx0 - fx1)).toFixed(5))
+            xi = parseFloat((x1 - deltax).toFixed(5))
+            er = parseFloat(Math.abs((xi - x1) / xi).toFixed(6))
+            x0 = x1
+            x1 = xi
+            result.push({ iteration: i, x0, x1, fx0, fx1, deltax, xi, er })
         }
-        i++;
-}
-         res.json({ 
-      data: result 
+        i++
+    }
+    res.json({
+        data: result,
     })
 }
 
