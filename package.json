@@ -18,6 +18,7 @@
     "linear-equation-system": "^1.1.1",
     "mathjs": "^9.3.0",
     "node-fetch": "^2.6.1",
+    "regression": "^2.0.1",
     "rref": "0.0.1",
     "swagger-ui-express": "^4.1.6"
   },
