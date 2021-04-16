@@ -4,6 +4,8 @@
  * @param {import("express").Response} res 
  */
 
+import Spline from 'cubic-spline'
+
 
 
 export const Newtondivied = async(req,res) => {
@@ -84,4 +86,24 @@ export const Lagrange = async(req,res) => {
     res.json({ ans })
 }
 
-export default {Newtondivied,Lagrange}
+export const Splineinterpo = async(req,res) => {
+    
+      const data = req.body
+    let x = []
+    let y = []
+    let ks = []
+    for (const key in data.X) {
+        x.push(data.X[key])
+    }
+    for (const key in data.Y) {
+        y.push(data.Y[key])
+    }
+    const spline = new Spline(x, y)
+    for (const key in spline.ks){
+        ks.push(spline.ks[key])
+    }
+    res.json({data: ks})
+ 
+}
+
+export default {Newtondivied,Lagrange,Splineinterpo}
