@@ -1,0 +1,241 @@
+{
+    "swagger": "2.0",
+    "title": "basic-express",
+    "version": "1.0.0",
+    "description": "basic express for friend",
+    "host": "localhost:8080",
+    "basePath": "/api/v1/",
+    "tags": [
+        {
+            "name": "Roots Of Equations"
+        },{
+            "name": "Linear Algebraic Equations"
+        },{
+            "name": "Interpolation & Extrapolation"
+        },{
+            "name": "Least-Squares Regresstion"
+        }
+    ],
+    "schemes": ["http"],
+    "consumes": ["application/json"],
+    "produces": ["application/json"],
+    "paths": {
+        "/api/v1/root/bisection": {
+            "post": {
+                "tags": ["Roots Of Equations"],
+                "description": "Bisection api",
+                "consumes": ["application/json"],
+                "produces": ["application/json"],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },"/api/v1/root/falseposition": {
+            "post": {
+                "tags": ["Roots Of Equations"],
+                "description": "False-Position api",
+                "consumes": ["application/json"],
+                "produces": ["application/json"],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },"/api/v1/root/onepoint": {
+            "post": {
+                "tags": ["Roots Of Equations"],
+                "description": "Onepoint api",
+                "consumes": ["application/json"],
+                "produces": ["application/json"],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },"/api/v1/root/newtonraphon": {
+            "post": {
+                "tags": ["Roots Of Equations"],
+                "description": "Newton-Raphson api",
+                "consumes": ["application/json"],
+                "produces": ["application/json"],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },"/api/v1/root/secant": {
+            "post": {
+                "tags": ["Roots Of Equations"],
+                "description": "Secant api",
+                "consumes": ["application/json"],
+                "produces": ["application/json"],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },"/api/v1/linear/cramer": {
+            "post": {
+                "tags": ["Linear Algebraic Equations"],
+                "description": "Cramer api",
+                "consumes": ["application/json"],
+                "produces": ["application/json"],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },"/api/v1/linear/gausseli": {
+            "post": {
+                "tags": ["Linear Algebraic Equations"],
+                "description": "GaussElimination api",
+                "consumes": ["application/json"],
+                "produces": ["application/json"],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },"/api/v1/linear/gaussjor": {
+            "post": {
+                "tags": ["Linear Algebraic Equations"],
+                "description": "Gaussjordan api",
+                "consumes": ["application/json"],
+                "produces": ["application/json"],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },"/api/v1/linear/lu": {
+            "post": {
+                "tags": ["Linear Algebraic Equations"],
+                "description": "LUdecomposition api",
+                "consumes": ["application/json"],
+                "produces": ["application/json"],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },"/api/v1/linear/gaussseidel": {
+            "post": {
+                "tags": ["Linear Algebraic Equations"],
+                "description": "GaussSeidel api",
+                "consumes": ["application/json"],
+                "produces": ["application/json"],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },"/api/v1/linear/jacobi": {
+            "post": {
+                "tags": ["Linear Algebraic Equations"],
+                "description": "Jacobi api",
+                "consumes": ["application/json"],
+                "produces": ["application/json"],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },"/api/v1/linear/conjugate": {
+            "post": {
+                "tags": ["Linear Algebraic Equations"],
+                "description": "Conjugate api",
+                "consumes": ["application/json"],
+                "produces": ["application/json"],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },"/api/v1/interpolation/newton": {
+            "post": {
+                "tags": ["Interpolation & Extrapolation"],
+                "description": "Newtondivied api",
+                "consumes": ["application/json"],
+                "produces": ["application/json"],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },"/api/v1/interpolation/lagrange": {
+            "post": {
+                "tags": ["Interpolation & Extrapolation"],
+                "description": "Lagrange api",
+                "consumes": ["application/json"],
+                "produces": ["application/json"],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },"/api/v1/interpolation/spline": {
+            "post": {
+                "tags": ["Interpolation & Extrapolation"],
+                "description": "Splineinterpo api",
+                "consumes": ["application/json"],
+                "produces": ["application/json"],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },"/api/v1/regression/linear": {
+            "post": {
+                "tags": ["Least-Squares Regresstion"],
+                "description": "Linear api",
+                "consumes": ["application/json"],
+                "produces": ["application/json"],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },"/api/v1/regression/polynomial": {
+            "post": {
+                "tags": ["Least-Squares Regresstion"],
+                "description": "Polynomial api",
+                "consumes": ["application/json"],
+                "produces": ["application/json"],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },"/api/v1/regression/multiple": {
+            "post": {
+                "tags": ["Least-Squares Regresstion"],
+                "description": "Multiple api",
+                "consumes": ["application/json"],
+                "produces": ["application/json"],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        }
+    }
+}
