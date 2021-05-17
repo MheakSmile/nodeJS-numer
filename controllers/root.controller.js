@@ -4,7 +4,7 @@
  * @param {import("express").Request} req 
  * @param {import("express").Response} res 
  */
-import {derivative,simplify,evaluate} from 'mathjs'
+import {derivative,simplify,evaluate, parser} from 'mathjs'
 export const Bisection = async(req,res) => {
       const data = req.body
     let xl = data.xl
@@ -21,6 +21,7 @@ export const Bisection = async(req,res) => {
         let a = simplify(data.eq).toString()
         return evaluate(a, { x })
     }
+
     while (er > er1) {
         //step1
         xm = (xl + xr) / 2
@@ -53,7 +54,7 @@ export const Bisection = async(req,res) => {
         })
         i++
     }
-    console.log(result.xm)
+    //console.log(result.xm)
     res.json({
         data: result,
     })
@@ -117,25 +118,40 @@ export const  Falseposition = async(req,res) =>{
 
 
 export const  Newtonraphon = async(req,res) =>{
- const data = req.body
+   const data = req.body
     let result = []
     let x = data.x
     let i = 0
     let xi, fx1, fx2, fxi
     let er = 1
     let er1 = data.error
+    const regX = data.eq.match(/[A-Z]/gi);
     if (er1 == null || er1 <= 0) {
         er1 = 0.000001
     }
     let fx = (x) => {
-        let a = simplify(data.eq).toString()
-        return evaluate(a, { x })
+        const parsers = parser()
+        parsers.set(regX[0].toString(),x)
+        return  parsers.evaluate(data.eq)
     }
     let diffx = (x) => {
-        let b = derivative(data.eq, 'x').toString()
+        const arr = data.eq.split('')
+        const arr2 = []
+        arr.forEach(r => {
+            if(r == regX[0].toString()){
+                arr2.push("x")
+            }else {
+                arr2.push(r)
+            }
+        });
+        let b = derivative(arr2.join(''),'x').toString()
+        //console.log("der",b)
         b = simplify(b).toString()
-        return evaluate(b, { x })
+        // //console.log("sim",b)
+        return evaluate(b, {x})
+        
     }
+    
 
     while (er >= er1) {
         if (i > 0) {
@@ -176,7 +192,7 @@ export const  Onepoint = async(req,res) =>{
         let a = simplify(data.eq).toString()
         return evaluate(a, { x })
     }
-    while (er >= er1) {
+    while (er > er1) {
         if (i > 0) {
             xi = fx(x)
             er = parseFloat(Math.abs((xi - x) / xi).toFixed(5))

@@ -5,6 +5,7 @@
  */
 
 import Spline from 'cubic-spline'
+import { i, log } from 'mathjs'
 
 
 
@@ -69,20 +70,23 @@ export const Lagrange = async(req,res) => {
         y.push(data.Y[key])
     }
     let fx = data.Xw
-    let p
-    let n = x.length
-    let yp = 0
+    let l 
+    let n = x.length    
+    let yl = 0
 
     for (let i = 0; i < n; i++) {
-        p = 1
+        l = 1
         for (let j = 0; j < n; j++) {
-            if (i != j) {
-                p = p * ((fx - x[j]) / (x[i] - x[j]))
+            if (i != j) { //ถ้า I==J จะได้ตัวมันเลข-ตัวมันเอง = 0 * อะไรก็ได้ 0 
+                l = l * ((x[j]- fx) / (x[j] - x[i]))
             }
         }
-        yp = yp + p * y[i]
+        yl = yl + l * y[i]
+        //console.log("l=",l)
+        //console.log("yi=",y[i])
     }
-    let ans = parseFloat(yp.toFixed(4))
+    console.log("yl=",yl)
+    let ans = parseFloat(yl)
     res.json({ ans })
 }
 

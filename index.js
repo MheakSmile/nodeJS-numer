@@ -21,8 +21,8 @@ app.use(bodyParser.urlencoded({extended: true}))
 
 app.use(
     '/docs',
-    swaggerUi.serve,
-    swaggerUi.setup(swaggerDocument,{isExplorer: true})
+     swaggerUi.serve,
+     swaggerUi.setup(swaggerDocument,{isExplorer: true})
 )
 
 

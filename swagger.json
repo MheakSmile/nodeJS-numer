@@ -4,7 +4,7 @@
     "version": "1.0.0",
     "description": "basic express for friend",
     "host": "localhost:8080",
-    "basePath": "/api/v1/",
+    "basePath": "/api/",
     "tags": [
         {
             "name": "Roots Of Equations"
